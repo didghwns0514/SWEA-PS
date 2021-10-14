@@ -40,6 +40,7 @@ def getMinSups(peopleNumber, nB, nC):
 			#yprint(f'(i_nB * nB) + (i_nC * nC) : {(i_nB * nB) + (i_nC * nC)}')
 			if ((i_nB * nB) + (i_nC * nC) ) >= peopleNumber :
 				record.append([i_nB, i_nC])
+				break
 
 	yprint(f'record : {record}')
 
