@@ -36,10 +36,15 @@ def rotateDisks(dataDisk, rotation):
 		if value == 2:
 			continue
 
+		# if value == 1: # 시계방향
+		# 	dataDisk[idxDisk].appendleft(dataDisk[idxDisk].popleft())
+		# else:
+		# 	dataDisk[idxDisk].append(dataDisk[idxDisk].pop())
+
 		if value == 1: # 시계방향
-			dataDisk[idxDisk].appendleft(dataDisk[idxDisk].popleft())
+			dataDisk[idxDisk].rotate(1)
 		else:
-			dataDisk[idxDisk].append(dataDisk[idxDisk].pop())
+			dataDisk[idxDisk].rotate(-1)
 
 def calculateScore(dataDisk):
 
@@ -67,6 +72,7 @@ def solution(testIteration, dataDisk, dataOrder):
 		subSolution(dataDisk, order, rotation, 1 )
 		yprint(f'rotation - result : {rotation}')
 		rotateDisks(dataDisk, rotation)
+		yprint(f'dataDisk - middle ; {dataDisk}')
 
 	yprint(f'dataDisk - final ; {dataDisk}')
 	answer = calculateScore(dataDisk)
@@ -79,9 +85,9 @@ def subSolution(dataDisk, order, rotation, counter):
 	if counter == 4:
 		pass
 		return
-
+	yprint(f'*'*13)
 	yprint(f'counter - before ; {counter}')
-
+	yprint(f'rotation - before: {rotation}')
 	for idxDisk, value in enumerate(rotation):
 		if value != 0: pass
 		else:
@@ -114,17 +120,23 @@ def subSolution(dataDisk, order, rotation, counter):
 			if idxDisk == 2:
 				if rotation[1] != 0:
 					if rotation[1] == 2:
+						yprint('2-1')
 						rotation[2] = 2
 						counter += 1
 					else:
+						yprint('2-2')
+						yprint(f'dataDisk[1][POS2] : {dataDisk[1][POS2]}')
+						yprint(f'dataDisk[2][POS1] : {dataDisk[2][POS1]}')
 						tmpRot = -rotation[1] if dataDisk[1][POS2] != dataDisk[2][POS1] else 2
 						rotation[2] = tmpRot
 						counter += 1
 				elif rotation[3] != 0:
+					yprint('2-3')
 					if rotation[3] == 2:
 						rotation[2] = 2
 						counter += 1
 					else:
+						yprint('2-4')
 						tmpRot = -rotation[3] if dataDisk[2][POS2] != dataDisk[3][POS1] else 2
 						rotation[2] = tmpRot
 						counter += 1
@@ -139,6 +151,7 @@ def subSolution(dataDisk, order, rotation, counter):
 						counter += 1
 
 	yprint(f'counter - after ; {counter}')
+	yprint(f'rotation - after: {rotation}')
 	subSolution(dataDisk, order, rotation, counter)
 	return
 
