@@ -5,7 +5,11 @@ def wrapper(i):
 	for j in range(i):
 		D, W, K, dataFilm = init()
 		returnValue = solution(j, D, W, K, dataFilm)
-		print(f'#{j+1} {returnValue}')
+		if K == 1:
+
+			print(f'#{j+1} {0}')
+		else:
+			print(f'#{j+1} {returnValue}')
 
 def init():
 	global answer
@@ -15,7 +19,7 @@ def init():
 
 	return D, W, K, dataFilm
 
-def checkTestPass(dataFilm, K, D):
+def checkTestPass3(dataFilm, K, D):
 
 	dataResult = []
 	for idxCol in range(len(dataFilm[0])):
@@ -32,39 +36,73 @@ def checkTestPass(dataFilm, K, D):
 	else:
 		return False
 
+def checkTestPass2(a, k, d):
 
-def dfs(dataFilm, D, K, W, depthIdx=-1, counter=0):
+	d,w = len(a),len(a[0])
+	for i in range(w):
+		tmp = [a[0][i],1]
+		for j in range(1,d):
+			if tmp[0] == a[j][i]:
+				tmp[1]+=1
+				if tmp[1]>=k:
+					break
+			else:
+				tmp[0],tmp[1] = a[j][i],1
+		else:
+			return False
+	return True
+
+def checkTestPass(dataFilm, K, D):
+
+	for idxCol in range(len(dataFilm[0])):
+		isPass = False
+		isSubPass = False
+
+		for idxRow in range(0, len(dataFilm)-K+1):
+			prevVal = dataFilm[idxRow][idxCol]
+			for i in range(K):
+				if not dataFilm[idxRow+i][idxCol] == prevVal:
+					break
+			else:
+				isPass = True
+				isSubPass = True
+
+			if isSubPass:
+				break
+
+		if not isPass:
+			return False
+	return True
+
+def dfs(dataFilm, D, K, W, depthIdx, counter=0):
 	global answer
 
-	if counter >= answer:
-		return
+	if depthIdx == D:
+		if checkTestPass(dataFilm, K, D) :
+			if answer > counter:
+				answer = counter
+	else:
+		dfs(dataFilm, D, K, W, depthIdx=depthIdx+1, counter=counter)
+		if counter <= K:
+			tmpDataLayer = [ x for x in dataFilm[depthIdx]]
 
-	if answer == 2:
-		return
+			for idx in range(W):
+				dataFilm[depthIdx][idx] = 0
+			dfs(dataFilm, D, K, W, depthIdx=depthIdx+1, counter=counter+1)
 
-	if checkTestPass(dataFilm, K, D) and counter != 1:
-		answer = min(answer, counter)
-		return
+			for idx in range(W):
+				dataFilm[depthIdx][idx] = 1
+			dfs(dataFilm, D, K, W, depthIdx=depthIdx+1, counter=counter+1)
 
-	if depthIdx >= D-1:
-		return
+			for idx, value in enumerate(tmpDataLayer):
+				dataFilm[depthIdx][idx] = value
 
-	tmpDataLayer = copy.deepcopy(dataFilm[depthIdx])
-	dfs(dataFilm, D, K, W, depthIdx=depthIdx+1, counter=counter)
-
-	dataFilm[depthIdx] = [0]*W
-	dfs(dataFilm, D, K, W, depthIdx=depthIdx+1, counter=counter+1)
-	dataFilm[depthIdx] = copy.deepcopy(tmpDataLayer)
-
-	dataFilm[depthIdx] = [1]*W
-	dfs(dataFilm, D, K, W, depthIdx=depthIdx+1, counter=counter+1)
-	dataFilm[depthIdx] = copy.deepcopy(tmpDataLayer)
 
 
 def solution(testIter, D, W, K, dataFilm):
 	global answer
 
-	dfs(dataFilm, D, K, W, depthIdx=-1, counter=0)
+	dfs(dataFilm, D, K, W, depthIdx=0, counter=0)
 
 	return answer
 
@@ -72,8 +110,6 @@ if __name__ == '__main__':
 	import sys
 	sys.stdin = open('sample_input.txt', 'r')
 
-	import copy
-	import itertools
 
 	T = int(input())
 	wrapper(T)
