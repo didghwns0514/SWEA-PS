@@ -24,6 +24,8 @@ def checkFinished(dataMap):
 
 	return True
 
+
+
 def dfs(dataMap, startPoints:list):
 
 	MaxX = len(dataMap[0])
@@ -39,6 +41,8 @@ def dfs(dataMap, startPoints:list):
 
 	while q:
 
+
+
 		currPos = q.popleft()
 		if currPos not in visited:
 			tmpNumProcess -= 1
@@ -49,21 +53,31 @@ def dfs(dataMap, startPoints:list):
 				nY = currPos[0] + dy[k]
 				nX = currPos[1] + dx[k]
 				if 0 <= nY <= MaxY -1 and 0 <= nX <= MaxX - 1  \
-					and (nY, nX) not in visited:
-					if dataMap[nY][nX] in [0, 2]:
+					and (nY, nX) not in visited and (nY, nX) not in q:
+					if dataMap[nY][nX] == 0:
 						q.append((nY, nX))
-
+					elif dataMap[nY][nX] == 2:
+						q.append((nY, nX))
+						#tmpNumProcess += 1
+					# elif dataMap[nY][nX] == 2:
+					# 	tmpResult = activateVirus(dataMap, [], (nY, nX))
+					# 	q.extend(tmpResult)
+					# 	tmpNumProcess += len(tmpResult)
 
 		if checkFinished(dataMap):
-			return timeCount + 1
+			return True, timeCount
 
 		if tmpNumProcess == 0:
 			tmpNumProcess = len(q)
 			timeCount += 1
-	if checkFinished(dataMap):
-		return timeCount
-	else:
-		return -1
+
+
+
+	# if checkFinished(dataMap):
+	# 	return True, timeCount
+	# else:
+	# 	return False, -1
+	return False, -1
 
 def solution(testIter,  N, M, dataMap):
 
@@ -72,11 +86,15 @@ def solution(testIter,  N, M, dataMap):
 					   if valCol == 2 ]
 	selected = list( itertools.combinations(filteredMSpots, M) )
 
-	minSec = 1e9
+	minSec = -1
 	for select in selected:
 		tmpDataMap = [ x[:] for x in dataMap ]
-		resultTime = dfs(tmpDataMap, select)
-		minSec = min(minSec, resultTime)
+		resultBool, resultTime = dfs(tmpDataMap, select)
+		if resultBool:
+			if minSec >= 0:
+				minSec = min(minSec, resultTime)
+			else:
+				minSec = resultTime
 
 	return minSec
 
@@ -89,5 +107,5 @@ if __name__=="__main__":
 	tWrapper()
 
 	#T = int(input())
-	T = 7
+	T = 8
 	wrapper(T)
