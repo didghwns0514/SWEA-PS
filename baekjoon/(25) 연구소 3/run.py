@@ -1,6 +1,18 @@
 
 def tWrapper():
-	pass
+
+	def test1():
+		startpoint = [ (4,3), (4,2) ]
+		dataMap = [ [2, 2, 2, 1, 1],
+					[2, 1, 1, 1, 1],
+					[2, 1, 1, 1, 1],
+					[2, 1, 1, 1, 1],
+					[2, 2, 2, 2, 0],
+					]
+		tmpResult = dfs(dataMap, startpoint)
+		print(f'tmpResult : {tmpResult}')
+
+	test1()
 
 def wrapper(i):
 
@@ -34,18 +46,15 @@ def dfs(dataMap, startPoints:list):
 	dy = [1, 0, -1,  0]
 	dx = [0, 1,  0, -1]
 	visited = []
-	tmpNumProcess = len(startPoints)
 
 	q = deque()
 	q.extend(list(startPoints))
+	tmpQ = deque()
 
-	while q:
-
-
+	while q or tmpQ:
 
 		currPos = q.popleft()
 		if currPos not in visited:
-			tmpNumProcess -= 1
 			visited.append(currPos)
 			dataMap[currPos[0]][currPos[1]] = '*'
 
@@ -53,12 +62,12 @@ def dfs(dataMap, startPoints:list):
 				nY = currPos[0] + dy[k]
 				nX = currPos[1] + dx[k]
 				if 0 <= nY <= MaxY -1 and 0 <= nX <= MaxX - 1  \
-					and (nY, nX) not in visited and (nY, nX) not in q:
+					and (nY, nX) not in visited and (nY, nX) not in tmpQ:
 					if dataMap[nY][nX] == 0:
-						q.append((nY, nX))
+						tmpQ.append((nY, nX))
 					elif dataMap[nY][nX] == 2:
-						q.append((nY, nX))
-						#tmpNumProcess += 1
+						tmpQ.append((nY, nX))
+						# tmpNumProcess += 1
 					# elif dataMap[nY][nX] == 2:
 					# 	tmpResult = activateVirus(dataMap, [], (nY, nX))
 					# 	q.extend(tmpResult)
@@ -67,9 +76,12 @@ def dfs(dataMap, startPoints:list):
 		if checkFinished(dataMap):
 			return True, timeCount
 
-		if tmpNumProcess == 0:
+		if not q:
+			q = copy.deepcopy(tmpQ)
+			tmpQ.clear()
 			tmpNumProcess = len(q)
 			timeCount += 1
+
 
 
 
@@ -103,9 +115,10 @@ if __name__=="__main__":
 	sys.stdin = open('sample_input.txt', 'r')
 	import itertools
 	from collections import deque
+	import copy
 
-	tWrapper()
+	#tWrapper()
 
 	#T = int(input())
-	T = 8
+	T = 6
 	wrapper(T)
