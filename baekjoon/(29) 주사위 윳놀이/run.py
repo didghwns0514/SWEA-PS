@@ -1,4 +1,5 @@
 
+answer = 0
 
 def tWrapper():
 	pass
@@ -8,11 +9,14 @@ def wrapper(i):
 	for j in range(i):
 		dataDice, mapData = init()
 		returnValue = solution(j, dataDice, mapData)
+		print(returnValue)
 
 def makePoint(score, red=None, blue=None):
 	return {'score':score, 'red':red, 'blue':blue}
 
 def init():
+	global answer
+	answer = 0
 
 	mapData = {
 		'start' : makePoint(0, '2-1'),
@@ -46,7 +50,8 @@ def init():
 		'34-8': makePoint(34, '36-8'),
 		'36-8': makePoint(36, '38-8'),
 		'38-8': makePoint(38, '40'),
-		'40' : makePoint(40, 'end')
+		'40' : makePoint(40, 'end'),
+		'end': makePoint(0)
 
 	}
 
@@ -54,9 +59,68 @@ def init():
 
 	return dataDice, mapData
 
+
+def dfs(mapData, dataDice, position, index=0, count=10, score=0):
+	global answer
+
+	if count == 0:
+		answer = max(answer, score)
+	else:
+		tmpPosition = [ data for data in position ]
+		currPos = tmpPosition[index]
+		fixStartPos = tmpPosition[index]
+		tmpScore = 0
+		tmpNumberIter = dataDice[10 - count]
+
+
+		for _ in range(tmpNumberIter):
+			nextPositionDict = mapData[currPos] # {'score':score, 'red':red, 'blue':blue}
+
+			#tmpScore += nextPositionDict['score']
+			tmpScore = nextPositionDict['score']
+			if fixStartPos in ['10', '20',  '30'] and fixStartPos == currPos:
+				currPos = nextPositionDict['blue']
+			else:
+				currPos = nextPositionDict['red']
+
+			# 끝에 도달
+			if nextPositionDict['red'] == 'end' or nextPositionDict['blue'] == 'end':
+				tmpScore = 0
+				break
+
+
+		if currPos in position and currPos != 'end' and currPos != 'start': # 다른 말이 이미 존재, 도착 아님
+			return
+		else:
+			tmpPosition[index] = currPos
+			score += tmpScore
+			if tmpPosition[0] != 'end':
+				tmpTmpPosition = [ data for data in tmpPosition ]
+				dfs(mapData, dataDice, tmpTmpPosition, index=0, count=count-1, score=score)
+			if tmpPosition[1] != 'end':
+				tmpTmpPosition = [ data for data in tmpPosition ]
+				dfs(mapData, dataDice, tmpTmpPosition, index=1, count=count-1, score=score)
+			if tmpPosition[2] != 'end':
+				tmpTmpPosition = [ data for data in tmpPosition ]
+				dfs(mapData, dataDice, tmpTmpPosition, index=2, count=count-1, score=score)
+			if tmpPosition[3] != 'end':
+				tmpTmpPosition = [ data for data in tmpPosition ]
+				dfs(mapData, dataDice, tmpTmpPosition, index=3, count=count-1, score=score)
+
+
 def solution(testIter, dataDice, mapData):
+	global answer
 
+	horse = ['start' for _ in range(4)]
+	dfs(mapData, dataDice, horse, index=0, count=10, score=0)
+	horse = ['start' for _ in range(4)]
+	dfs(mapData, dataDice, horse, index=1, count=10, score=0)
+	horse = ['start' for _ in range(4)]
+	dfs(mapData, dataDice, horse, index=2, count=10, score=0)
+	horse = ['start' for _ in range(4)]
+	dfs(mapData, dataDice, horse, index=3, count=10, score=0)
 
+	return answer
 
 
 if __name__ == '__main__':
