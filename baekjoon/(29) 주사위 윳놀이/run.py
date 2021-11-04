@@ -74,14 +74,16 @@ def dfs(mapData, dataDice, position, index=0, count=10, score=0):
 
 
 		for _ in range(tmpNumberIter):
-			nextPositionDict = mapData[currPos] # {'score':score, 'red':red, 'blue':blue}
+			# {'score':score, 'red':red, 'blue':blue}
+			nextPositionDict = mapData[currPos]
 
 			#tmpScore += nextPositionDict['score']
-			tmpScore = nextPositionDict['score']
+
 			if fixStartPos in ['10', '20',  '30'] and fixStartPos == currPos:
 				currPos = nextPositionDict['blue']
 			else:
 				currPos = nextPositionDict['red']
+			tmpScore = mapData[currPos]['score']
 
 			# 끝에 도달
 			if nextPositionDict['red'] == 'end' or nextPositionDict['blue'] == 'end':
