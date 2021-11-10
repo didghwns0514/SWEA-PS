@@ -5,13 +5,16 @@ def twrapper():
 def wrapper(i):
 
 	for j in range(i):
-		init()
-		returnValue = solution(j)
+		N, dataPlace = init()
+		returnValue = solution(j, N, dataPlace)
 
 def init():
-	pass
+	N = int(input())
+	dataPlace = [ list(map(int, input().split())) for _ in range(N)]
 
-def solution(testIter):
+	return N, dataPlace
+
+def solution(testIter, N, dataPlace):
 	pass
 
 if __name__ == "__main__":
