@@ -1,1 +1,2 @@
-https://junekkk.tistory.com/20?category=814653 C++ 설정
+- https://junekkk.tistory.com/20?category=814653   > C++ 설정
+- https://junekkk.tistory.com/21?category=814653   > C++ 디버거 설정
