@@ -17,62 +17,85 @@ def init():
 
     return N, dataMap
 
+sand = 0
 
 def solution(N, dataMap):
+    global sand
 
-    returnValue = getNextPosList(N)
-    curPos = (N // 2, N // 2)  # Y, X
+    n = N
+    dx = [0, 1, 0, -1]
+    dy = [-1, 0, 1, 0]
 
-    initialSand = 0
-    for data in dataMap:
-        initialSand += sum(data)
+    board = dataMap
 
-    blown = 0
+    b_dict = {}
 
-    for nextPos in returnValue:
-        tmpY, tmpX = nextPos[0] - curPos[0], nextPos[1] - curPos[1]
+    x, y = n // 2, n // 2
+    s = 1
+    count = 0
+    d = 0
+    go = []
+    for i in range(1, n):
+        go.append(i)
+        go.append(i)
+    go.append(n)
+    g_idx = 0
+    b_dict[1] = [x, y, 0]
+    sand = 0
 
-        windBlowData, outWindBlowData  = getBlownPosition(tmpY, tmpX, nextPos[0], nextPos[1], N)
-        saveSandInCurpos = dataMap[nextPos[0]][nextPos[1]]
-        sandInCurpos = saveSandInCurpos
-        dataMap[nextPos[0]][nextPos[1]] = 0
+    left = [[0, 0, 2, 0, 0], [0, 10, 7, 1, 0], [5, -1, 0, 0, 0], [0, 10, 7, 1, 0], [0, 0, 2, 0, 0]]
+    right = [[0, 0, 2, 0, 0], [0, 1, 7, 10, 0], [0, 0, 0, -1, 5], [0, 1, 7, 10, 0], [0, 0, 2, 0, 0]]
+    up = [[0, 0, 5, 0, 0], [0, 10, -1, 10, 0], [2, 7, 0, 7, 2], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0]]
+    down = [[0, 0, 0, 0, 0], [0, 1, 0, 1, 0], [2, 7, 0, 7, 2], [0, 10, -1, 10, 0], [0, 0, 5, 0, 0]]
 
-
-        for positionInfo in outWindBlowData: # [yyPosY, yyPosX-2, 0.05]
-            if positionInfo[2] == 'whatsleft':
-                pass
-            else:
-                sandInCurpos -= int(saveSandInCurpos * positionInfo[2])
-                blown += int(saveSandInCurpos * positionInfo[2])
-
-
-        for positionInfo in windBlowData: # [yyPosY, yyPosX-2, 0.05]
-            if positionInfo[2] == 'whatsleft':
-                pass
-            else:
-                dataMap[positionInfo[0]][positionInfo[1]] += int(saveSandInCurpos * positionInfo[2])
-                sandInCurpos -= int(saveSandInCurpos * positionInfo[2])
-
-
-        # a 더하기
-        if windBlowData[-1][2] == 'whatsleft':
-            dataMap[windBlowData[-1][0]][windBlowData[-1][1]] += sandInCurpos
-        elif outWindBlowData[-1][2] == 'whatsleft':
-            blown += sandInCurpos
+    def moving(x, y, a, plus):
+        global sand
+        a_x, a_y = -1, -1
+        remain = 0
+        for i in range(-2, 3):
+            for j in range(-2, 3):
+                if plus[i + 2][j + 2] == 0 or plus[i + 2][j + 2] == -1:
+                    if plus[i + 2][j + 2] == -1:
+                        a_x, a_y = i + 2, j + 2
+                    continue
+                temp = int(a * (plus[i + 2][j + 2] / 100))
+                remain += temp
+                if x + i < 0 or x + i >= n or y + j < 0 or y + j >= n:
+                    sand += temp
+                else:
+                    board[x + i][y + j] += temp
+        if 0 <= x + a_x - 2 < n and 0 <= y + a_y - 2 < n:
+            board[x + a_x - 2][y + a_y - 2] += (a - remain)
         else:
-            raise ValueError('Wrong-2!')
+            sand += (a - remain)
 
+    for i in range(1, n * n):
+        nx = x + dx[d]
+        ny = y + dy[d]
+        count += 1
+        x, y = nx, ny
+        if count >= go[g_idx]:
+            d = (d + 1) % 4
+            b_dict[i + 1] = [nx, ny, d]
+            g_idx += 1
+            count = 0
+        else:
+            b_dict[i + 1] = [nx, ny, d]
 
-        # update curpos
-        curPos = nextPos
+    for i in range(1, n * n):
+        x, y, d = b_dict[i]
+        nx, ny, nd = b_dict[i + 1]
+        if d == 0:
+            moving(nx, ny, board[nx][ny], left)
+        elif d == 1:
+            moving(nx, ny, board[nx][ny], down)
+        elif d == 2:
+            moving(nx, ny, board[nx][ny], right)
+        else:
+            moving(nx, ny, board[nx][ny], up)
+        board[nx][ny] = 0
 
-
-    # nowSand = 0
-    # for data in dataMap:
-    #     nowSand += sum(data)
-
-
-    return blown
+    return sand
 
 def getBlownPosition(tmpY, tmpX, yyPosY, yyPosX, N):
     # calc for relative YY position
@@ -122,8 +145,6 @@ def getBlownPosition(tmpY, tmpX, yyPosY, yyPosX, N):
         posData.append( [yyPosY-1, yyPosX-1, 0.01] )
         posData.append( [yyPosY-1, yyPosX+1, 0.01] )
         posData.append([yyPosY+1, yyPosX, 'whatsleft'])
-    else:
-        raise ValueError('Wrong-1!')
 
     # filter out of box
 
@@ -132,13 +153,12 @@ def getBlownPosition(tmpY, tmpX, yyPosY, yyPosX, N):
 def getNextPosList(N):
     # if N = 7 -> startpos :
     curPos = (N//2, N//2) # Y, X
-    startPos = curPos
     direction = 0 # 0 : 왼, 1 : 아래, 2 : 오른, 3 : 위
     dx = [-1, 0, 1, 0]
     dy = [0, 1, 0, -1]
 
     movePos = []
-    movePos.append(curPos)
+    #movePos.append(curPos)
     realPos = []
 
     while curPos != (0, 0):
@@ -159,7 +179,7 @@ def getNextPosList(N):
 
         curPos = (nY, nX)
 
-    return movePos[1:]
+    return movePos
 
 
 if __name__ == "__main__":
