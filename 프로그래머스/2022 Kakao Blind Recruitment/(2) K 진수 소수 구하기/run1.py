@@ -1,74 +1,45 @@
 import re
 
-globalPrimeSet = set()
-globalNotPrimeSet = set()
-
 def isPrime(stingNum, k):
-    global globalPrimeSet, globalNotPrimeSet
-    if stingNum in globalPrimeSet:
-        return True
-    if stingNum in globalNotPrimeSet:
-        return False
+    if stingNum == '': return False
+    intNum = int(stingNum)
 
-    #intNumber = int(stingNum, k)
-    intNumber = int(stingNum)
-    if stingNum == '1' or '0' in stingNum:
-        globalNotPrimeSet.add(stingNum)
-        return False
+    if intNum == 2 or intNum == 3: return True  # 2 or 3 은 소수
+    if intNum % 2 == 0 or intNum < 2: return False  # 2의 배수이거나 2보다 작은 값인 경우 소수가 아님
 
-    for j in range(1, intNumber):
-        if j ==1:continue
-        if intNumber % j == 0:
-            globalNotPrimeSet.add(stingNum)
+    for i in range(3, int(intNum ** 0.5) + 1, 2):
+        if intNum % i == 0:
             return False
-
-    globalPrimeSet.add(stingNum)
     return True
 
-def separate2(string, k):
-    primeHistory = []
-    stringLength = len(string)
-    idx_start = 0
-    idx_end = 0
+def separate(string, k):
+    #print(f'initial string : {string}')
+    totalPrimeCount = 0
+    reObj = re.compile('0([1-9]*)|([1-9]*)0|0([1-9]*)0|([1-9]*)')
 
-    if len(string) == 1:
-        if isPrime(string, k):
-            return 1
-        else: return 0
+    while string:
+        rePattern = reObj.match(string).group()
+        #print(f'v : {rePattern}')
 
-    for idx_end in range(0, stringLength):
-        if not idx_end >= idx_start: continue
-        if idx_end == stringLength - 1: # no next
-            tmpSubStr = string[idx_start:idx_end + 1]
-            if isPrime(tmpSubStr, k):
-                primeHistory.append(tmpSubStr)
-                break
-        else:
-            if string[idx_end+1] == '0':
-                tmpSubStr = string[idx_start:idx_end+1]
-                if isPrime(tmpSubStr, k):
-                    primeHistory.append(tmpSubStr)
-                    # idx_start = idx_end + 2
-                else:
-                    pass
-                idx_start = idx_end + 1
-                while string[idx_start] == '0':
-                    idx_start += 1
-            else:
-                continue
+        rePatternReal = rePattern.replace('0','')
 
-    return len(primeHistory)
+        if isPrime(rePatternReal, k):
+            totalPrimeCount += 1
+
+        string = string[len(rePattern):]
+
+    return totalPrimeCount
 
 
 def solution(n, k):
 
 
     converted = convert_to_k(n, k)
-    print(f'converted : {converted}')
+    #print(f'converted : {converted}')
 
 
-    length = separate2(converted, k)
-    print(f'length : {length}')
+    length = separate(converted, k)
+    #print(f'length : {length}')
 
     return length
 
@@ -82,7 +53,8 @@ def convert_to_k(n, k):
 
     return rev_base[::-1]
 
+
 if __name__ == '__main__':
-    n = 110011
-    k = 10
+    n = 437674
+    k = 3
     solution(n, k)
