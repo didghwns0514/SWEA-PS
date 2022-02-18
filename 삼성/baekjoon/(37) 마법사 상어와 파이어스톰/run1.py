@@ -5,8 +5,8 @@ def Wrapper(T):
 
     for _ in range(T):
         N, dataMap, Q, dataL = init()
-        returnResult = solution(N, dataMap, Q, dataL)
-        print(f'returnResult : {returnResult}')
+        returnResult, _maxHist = solution(N, dataMap, Q, dataL)
+        print(f'returnResult, _maxHist : {returnResult, _maxHist}')
 
 
 def init():
@@ -29,22 +29,92 @@ def init():
 
 def solution(N, dataMap, Q, dataL):
 
+    dx = [0, 1, 0, -1]
+    dy = [-1, 0, 1, 0]
+    nMax = 2**N
+
     for L in dataL: # 총 Q 번 시행
-
+        tmpDataMap = copy.deepcopy(dataMap)
         tmpWholeBlock = splitForLsize(N, L)
-        print(f'L :{L}')
-        print(f'tmpWholeBlock : {tmpWholeBlock}')
+        # print(f'\n')
+        # print(f'-'*20)
+        # print(f'L :{L}')
+        # print(f'tmpWholeBlock : {tmpWholeBlock}')
+        # print(f'dataMap before : {dataMap}')
 
+        # rotate blocks
         for singleBlock in tmpWholeBlock:
-            print(f'singleBlock : {singleBlock}')
+            # print(f'singleBlock : {singleBlock}')
             rotatedBlock = rotateClockwise90(L, singleBlock)
-            print(f'rotatedBlock : {rotatedBlock}')
+            # print(f'rotatedBlock : {rotatedBlock}')
+
+            for idxRow, valRow in enumerate(singleBlock):
+                for idxCol, valCol in enumerate(valRow):
+                    # tmpBuff = dataMap[ singleBlock[idxRow][idxCol][0] ][ singleBlock[idxRow][idxCol][1] ]
+                    # dataMap[singleBlock[idxRow][idxCol][0]][singleBlock[idxRow][idxCol][1]] = copy.deepcopy(dataMap[ rotatedBlock[idxRow][idxCol][0] ][ rotatedBlock[idxRow][idxCol][1] ])
+                    # dataMap[rotatedBlock[idxRow][idxCol][0]][rotatedBlock[idxRow][idxCol][1]] = tmpBuff
+                    dataMap[ singleBlock[idxRow][idxCol][0] ][ singleBlock[idxRow][idxCol][1] ] = tmpDataMap[ rotatedBlock[idxRow][idxCol][0] ][ rotatedBlock[idxRow][idxCol][1] ]
+
+        # ice melt
+        tmpMeltHist = []
+        for oi1, v1 in enumerate(dataMap):
+            for oi2, v2 in enumerate(v1):
+                tmpCount = 0
+                if dataMap[oi1][oi2] == 0 : continue
+
+                for _i in range(4):
+                    nX, nY = dx[_i] + oi2, dy[_i] + oi1
+                    if ( 0 <= nX < nMax  and 0 <= nY < nMax):
+                        if dataMap[nY][nX] > 0 :
+                            tmpCount += 1
+
+                if tmpCount < 3 :
+                    tmpMeltHist.append( (oi1, oi2) )
+
+        for meltPos in tmpMeltHist:
+            dataMap[meltPos[0]][meltPos[1]] -= 1
 
 
-
+        # print(f'dataMap after : {dataMap}')
             # tmpBuffer = dataMap[tBRow]
             # dataMap[tBRow] = dataMap[oBRow]
             # dataMap[oBRow] = tmpBuffer
+
+    # 합 구하기
+    _sum = 0
+    for row in dataMap:
+        _sum += sum(row)
+
+
+    _maxHist = calculateIce(dataMap)
+
+    return _sum, _maxHist
+
+
+countIce = 0
+visited = set()
+def calculateIce(dataMap):
+
+    global countIce
+    countIce = 0
+    maxHist = 0
+    nMax = len(dataMap)
+
+    for oi1, val1 in enumerate(dataMap):
+        for oi2, val2 in enumerate(val1):
+            countIce = 0
+            if bfs((oi1, oi2), dataMap, nMax):
+                maxHist = max(maxHist, countIce)
+
+    return maxHist
+
+def bfs(start, dataMap, nMax):
+    global countIce, visited
+
+    dx = [0, 1, 0, -1]
+    dy = [-1, 0, 1, 0]
+
+
 
 
 def rotateClockwise90(L, singleBlock):
@@ -77,7 +147,7 @@ def splitForLsize(N, L):
             for j1 in range(tmpLlength):
                 tmpRowBlock = []
                 for j2 in range(tmpLlength):
-                    tmpRowBlock.append((i1 + j1, i2 + j2))
+                    tmpRowBlock.append((i1*tmpLlength + j1, i2*tmpLlength + j2))
                 tmpBlock.append( tmpRowBlock )
 
             tmpWholeBlock.append(tmpBlock)
