@@ -1,12 +1,15 @@
 
 import copy
+from collections import deque
 
 def Wrapper(T):
 
     for _ in range(T):
         N, dataMap, Q, dataL = init()
         returnResult, _maxHist = solution(N, dataMap, Q, dataL)
-        print(f'returnResult, _maxHist : {returnResult, _maxHist}')
+        #print(f'returnResult, _maxHist : {returnResult, _maxHist}')
+        print(returnResult)
+        print(_maxHist)
 
 
 def init():
@@ -20,9 +23,9 @@ def init():
 
     dataL = list(map(int, input().split(' ')))
 
-    print(f'len(dataMap) : {len(dataMap)}')
-    print(f'dataMap : {dataMap}')
-    print(f'Q, dataL : { Q, dataL}')
+    # print(f'len(dataMap) : {len(dataMap)}')
+    # print(f'dataMap : {dataMap}')
+    # print(f'Q, dataL : { Q, dataL}')
 
     return N, dataMap, Q, dataL
 
@@ -95,7 +98,8 @@ countIce = 0
 visited = set()
 def calculateIce(dataMap):
 
-    global countIce
+    global countIce, visited
+    visited = set()
     countIce = 0
     maxHist = 0
     nMax = len(dataMap)
@@ -103,8 +107,9 @@ def calculateIce(dataMap):
     for oi1, val1 in enumerate(dataMap):
         for oi2, val2 in enumerate(val1):
             countIce = 0
-            if bfs((oi1, oi2), dataMap, nMax):
-                maxHist = max(maxHist, countIce)
+
+            bfs((oi1, oi2), dataMap, nMax)
+            maxHist = max(maxHist, countIce)
 
     return maxHist
 
@@ -113,8 +118,28 @@ def bfs(start, dataMap, nMax):
 
     dx = [0, 1, 0, -1]
     dy = [-1, 0, 1, 0]
+    q = deque()
+    q.append(start)
 
+    if start in visited:
+        return None
 
+    while q:
+        tmpPop = q.popleft()
+
+        if tmpPop in visited:
+            continue
+
+        if dataMap[tmpPop[0]][tmpPop[1]] == 0:
+            continue
+
+        visited.add(tmpPop)
+        countIce += 1
+
+        for _i in range(4):
+            nX, nY = dx[_i] + tmpPop[1], dy[_i] + tmpPop[0]
+            if (0 <= nX < nMax and 0 <= nY < nMax):
+                q.append((nY, nX))
 
 
 def rotateClockwise90(L, singleBlock):
@@ -161,4 +186,4 @@ if __name__ == "__main__":
 
 
     T = 6
-    Wrapper(6)
+    Wrapper(T)
