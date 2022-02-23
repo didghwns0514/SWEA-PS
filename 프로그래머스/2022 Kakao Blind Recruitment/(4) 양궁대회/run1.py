@@ -14,13 +14,23 @@ def solution(n, info):
     return answer
 
 
-def subSolution(arrow_list, count):
+def subSolution(arrow_list):
     global curr_arrowList, curr_max_point
 
-    if count == 0:
-        tmpPointCalculation = sum( [ val*(10 - idx) for idx, val in enumerate(arrow_list) ] )
+    if sum(arrow_list) == 10:
+        tmpPointCalculation = calcScore(arrow_list)
+        if tmpPointCalculation > curr_max_point:
+            curr_max_point = tmpPointCalculation
+            curr_arrowList = arrow_list
+            return
+        elif tmpPointCalculation == curr_max_point:
 
+        else: pass # 낮아서 업데이트 할 필요 없음
+        return
 
+def calcScore(arrow_list):
+
+    return sum( [ val*(10 - idx) for idx, val in enumerate(arrow_list) ] )
 
 
 if __name__ == "__main__":
