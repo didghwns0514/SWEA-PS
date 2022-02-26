@@ -21,6 +21,8 @@ def solution(n, info):
 def subSolution(arrow_list, n):
 
     resultCombi = list(itertools.combinations_with_replacement(range(0, 11), n))
+
+
     print(f'resultCombi : {resultCombi}')
 
 def subSolution2(arrow_list, n):
