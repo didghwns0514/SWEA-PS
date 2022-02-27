@@ -22,8 +22,18 @@ def subSolution(arrow_list, n):
 
     resultCombi = list(itertools.combinations_with_replacement(range(0, 11), n))
 
-
     print(f'resultCombi : {resultCombi}')
+
+    for tuple_info in resultCombi:
+        tmpList = genList(tuple_info)
+
+
+def genList(tuple_info):
+    tmpList = [0] * 11  # 10 -> 밖, 0 -> 정중앙 10 - index로 점수 계산
+    for index_info in tuple_info:
+        tmpList[index_info] += 1
+
+    return tmpList
 
 def subSolution2(arrow_list, n):
     global curr_arrowList, curr_max_point
