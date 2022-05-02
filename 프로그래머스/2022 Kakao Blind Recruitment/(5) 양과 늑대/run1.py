@@ -22,6 +22,9 @@ def subSolution(info, data_graph, visited, currVertex):
     if visitedToIndex.count(0) <= visitedToIndex.count(1):
         MAX_SHEEP = max(MAX_SHEEP, visitedToIndex.count(0))
         return
+    elif len(visitedSave) == len(info):
+        MAX_SHEEP = max(MAX_SHEEP, visitedToIndex.count(0))
+        return
 
     candidateVertex = set()
     for vertex in visitedSave:
