@@ -1,15 +1,66 @@
 
-def solution(board, skills):
+def solution2(board, skills):
+
+    #########################
+    # 효율성 안좋음!
+    #########################
 
     for skill in skills:
-        pass
+
+        _type, r1, c1, r2, c2, degree = skill
+        # _type=1 : 공격, _type=2 : 힐링
+
+        for r, c in select_square(r1, c1, r2, c2):
+            if _type == 1:
+                board[r][c] -= degree
+            elif _type == 2:
+                board[r][c] += degree
+
+    count = 0
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] > 0:
+                count += 1
 
     answer = 0
-    return answer
+    return count
+
+def solution(board, skills):
+
+    data_board = { (r, c) : board[r][c] for r in range(len(board)) for c in range(len(board[0])) }
+
+    for skill in skills:
+
+        _type, r1, c1, r2, c2, degree = skill
+        # _type=1 : 공격, _type=2 : 힐링
+
+        for ri in range(r1, r2 + 1):
+            for ci in range(c1, c2 + 1):
+
+                if _type == 1 : data_board[(ri, ci)] -= degree
+                elif _type == 2 : data_board[(ri, ci)] += degree
+
+    count = 0
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if data_board[(i, j)] > 0:
+                count += 1
+
+    answer = 0
+    return count
+
+def select_square(r1, c1, r2, c2):
+    returnResult = []
+
+    for r in range(r1, r2 + 1):
+        for c in range(c1, c2 + 1):
+            returnResult.append( ( r, c ) )
+
+    return returnResult
 
 if __name__ == "__main__":
 
-    switch = 2
+    switch = 1
 
     if switch == 1:
         board = [[5,5,5,5,5],[5,5,5,5,5],[5,5,5,5,5],[5,5,5,5,5]]
