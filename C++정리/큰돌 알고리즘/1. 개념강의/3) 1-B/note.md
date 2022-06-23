@@ -1,7 +1,7 @@
 # 1-B
 
 - 알파벳 개수
-- [문제링크](https://www.acmicpc.net/problem/10808)
+- [문제링크](http://boj.kr/1a1898996c8542889b32b4c1b2498dd0)
 
 ## 알면 좋은점
 
