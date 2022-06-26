@@ -13,18 +13,18 @@
   ```c++
   #include<bits/stdc++.h>
   using namespace std;
-  string s, temp;
+  int n, cnt[26];
+  string s, ret;
   int main(){
-      cin >> s;
-      temp = s;
-      reverse(temp.begin(), temp.end());
-      if(temp == s) cout << 1 << "\n";
-      else cout << 0 << "\n";
-
-      return 0;
+      cin >> n;
+      for(int i = 0; i < n; i++){
+          cin >> s;
+          cnt[s[0] - 'a']++;
+      }
+      for(int i = 0; i < 26; i++)if(cnt[i] >= 5) ret+=  i + 'a';
+      if(ret.size()) cout << ret << "\n";
+      else cout << "PREDAJA" << "\n";
   }
-
-
   ```
 
 - 내코드
@@ -38,22 +38,58 @@
   using namespace std;
 
   //
-  string originalString;
-  string reverseString;
+  bool isInputText = false;
+  char i = 'a';
+  string returnResult;
+  string nameData[150];
+
+  int inputText() {
+      int inputIteration;
+      string tempString;
+
+
+      if(isInputText) freopen("input.txt", "r", stdin);
+      cin >> inputIteration;
+
+      for(int k =0; k < inputIteration; k ++){
+          cin >> tempString;
+          nameData[k] = tempString;
+      }
+
+      return 0;
+
+
+  }
 
   int main(){
-
       ios_base::sync_with_stdio(false);
       cin.tie(NULL); cout.tie(NULL);
 
-      cin >> originalString;
+      int count = 0;
 
-      reverseString = originalString;
-      reverse(reverseString.begin(), reverseString.end());
+      inputText();
 
-      if (originalString == reverseString) cout << "1";
-      else if (originalString != reverseString) cout << "0";
+      do{
+          count = 0;
+          for(string name : nameData){
+              if (name == "") continue;
+              if(name[0] == i) {count += 1;}
+          }
+          if(count >= 5) {returnResult += i;}
+
+          i += 1;
+      } while( i != 'a' );
+
+      if(returnResult == "") {
+          cout << "PREDAJA" << "\n";
+      }
+      else{
+          cout << returnResult << "\n";
+      };
 
       return 0;
   }
+
+
+
   ```

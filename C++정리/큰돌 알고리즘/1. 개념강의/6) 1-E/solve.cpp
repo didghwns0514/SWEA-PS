@@ -6,54 +6,66 @@
 using namespace std;
 
 //
-char i;
+bool isInputText = true;
+char i = 'a';
 string returnResult;
 string nameData[150];
 
-prijestolonasljednikovi
+int inputText() {
+    int inputIteration;
+    string tempString;
 
-int repeat;
+    
+    if(isInputText) freopen("input.txt", "r", stdin);
+    cin >> inputIteration;
+
+    cout << "inputIteration : " << inputIteration << "\n";
+
+    for(int k =0; k < inputIteration; k ++){
+        cin >> tempString;
+        nameData[k] = tempString; 
+    }
+
+    return 0;
+
+
+}
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
     
-    nameData[0] = "babic";
+    int count = 0;
 
-nameData[1] ="keksic";
-nameData[2] ="boric";
-nameData[3] ="bukic";
-"sarmic";
-"balic";
-"kruzic";
-"hrenovkic";
-"beslic";
-"boksic";
-"krafnic";
-""
-klavirkovic
-kukumaric
-sunkic
-kolacic
-kovacic
+    inputText();
 
-    cin >> repeat;
-    for(int j=0; j<repeat; j++){
-        cin >> nameData[j];
+    cout << "###########" << "\n";
+    for(string name : nameData){
+        if(name == "") continue;
+        cout << name << "\n";
     }
+    cout << "###########" << "\n";
     
     do{
-        int count = 0;
+        count = 0;
         for(string name : nameData){
+            if (name == "") continue;
             if(name[0] == i) {count += 1;}
         }
         if(count >= 5) {returnResult += i;}
         
         i += 1;
-    } while( i != 'z' );
+    } while( i != 'a' );
     
-    if(returnResult == "") cout << "PREDAJA" << "\n";
-    else cout << returnResult << "\n"; 
+    if(returnResult == "") {
+        cout << "return Result! 1" << "\n";
+        cout << "PREDAJA" << "\n";
+    }
+    else{ 
+        cout << "return Result! 2" << "\n";
+        cout << returnResult << "\n";
+    }; 
     
     return 0;
 }
+
