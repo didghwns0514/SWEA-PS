@@ -1,71 +1,65 @@
 #include <bits/stdc++.h>
-#include <iostream>
-#include <algorithm>
 #include <string>
+#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
 //
-bool isInputText = true;
-char i = 'a';
-string returnResult;
-string nameData[150];
+bool isTextTrue = true;
 
-int inputText() {
-    int inputIteration;
-    string tempString;
+string getInput() {
 
-    
-    if(isInputText) freopen("input.txt", "r", stdin);
-    cin >> inputIteration;
+    if(isTextTrue) freopen("input.txt", "r", stdin);
 
-    cout << "inputIteration : " << inputIteration << "\n";
+    string str;
 
-    for(int k =0; k < inputIteration; k ++){
-        cin >> tempString;
-        nameData[k] = tempString; 
-    }
-
-    return 0;
+    //cin >> str;
+    getline(cin, str);
 
 
+    return str;
 }
 
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
     
-    int count = 0;
+    string str = getInput();
 
-    inputText();
+    cout << "str is : " << str << "::::\n";
 
-    cout << "###########" << "\n";
-    for(string name : nameData){
-        if(name == "") continue;
-        cout << name << "\n";
-    }
-    cout << "###########" << "\n";
-    
-    do{
-        count = 0;
-        for(string name : nameData){
-            if (name == "") continue;
-            if(name[0] == i) {count += 1;}
+    for(int k=0; k<str.size(); k++){
+        if( isalpha(str[k]) ) {
+            // 대문자
+            if(str[k] >= 65 && str[k] < 97){
+                if(str[k] + 13 > 90) str[k] = str[k] + 13 - 26; 
+                else str[k] = str[k] + 13;
+            }
+            // 소문자
+            else if(str[k] >= 97 && str[k] <= 122){
+                if(str[k] + 13 > 122) str[k] = str[k] + 13 - 26; 
+                else str[k] = str[k] + 13;  
+            }
         }
-        if(count >= 5) {returnResult += i;}
-        
-        i += 1;
-    } while( i != 'a' );
-    
-    if(returnResult == "") {
-        cout << "return Result! 1" << "\n";
-        cout << "PREDAJA" << "\n";
     }
-    else{ 
-        cout << "return Result! 2" << "\n";
-        cout << returnResult << "\n";
-    }; 
+
+    // for(int k=0; k<str.size(); k++){
+    //     if( isalpha(str[k]) ) {
+    //         if(str[k] >= 65 && str[k] < 97){
+    //             if(str[k] + 13 > 90) str[k] = str[k] + 13 - 26; 
+    //             else str[k] = str[k] + 13;  
+    //         }else if(str[k] >= 97 && str[k] <= 122){
+    //             if(str[k] + 13 > 122) str[k] = str[k] + 13 - 26; 
+    //             else str[k] = str[k] + 13;  
+    //         }
+    //     }
+    // }
+    
+    for(char c : str) cout << c;
     
     return 0;
+    
+    
 }
 

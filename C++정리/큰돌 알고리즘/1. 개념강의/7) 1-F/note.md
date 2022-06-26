@@ -3,6 +3,7 @@
 - [문제링크](https://www.acmicpc.net/problem/11655)
 
 ## 알면 좋은점
+> 1) 대문자 65 ~ 66,  소문자 97 ~ 122  (diff는 26)
 
 <br>
 
@@ -11,85 +12,80 @@
 - 해설
 
   ```c++
-  #include<bits/stdc++.h>
-  using namespace std;
-  int n, cnt[26];
-  string s, ret;
-  int main(){
-      cin >> n;
-      for(int i = 0; i < n; i++){
-          cin >> s;
-          cnt[s[0] - 'a']++;
-      }
-      for(int i = 0; i < 26; i++)if(cnt[i] >= 5) ret+=  i + 'a';
-      if(ret.size()) cout << ret << "\n";
-      else cout << "PREDAJA" << "\n";
-  }
+    #include<bits/stdc++.h>
+    using namespace std;
+    string s;
+    int main(){
+        getline(cin, s);
+        for(int i = 0; i < s.size(); i++){
+            // 대문자인경우
+            if(s[i] >= 65 && s[i] < 97){
+                if(s[i] + 13 > 90) s[i] = s[i] + 13 - 26;
+                else s[i] = s[i] + 13;
+            }else if(s[i] >= 97 && s[i] <= 122){
+                if(s[i] + 13 > 122)s[i] = s[i] + 13 - 26;
+                else s[i] = s[i] + 13;
+            }
+            cout << s[i];
+        }
+        return 0;
+    }
+
+
   ```
 
 - 내코드
 
   ```c++
-  #include <bits/stdc++.h>
-  #include <iostream>
-  #include <algorithm>
-  #include <string>
+    #include <bits/stdc++.h>
+    #include <string>
+    #include <algorithm>
+    #include <iostream>
 
-  using namespace std;
+    using namespace std;
 
-  //
-  bool isInputText = false;
-  char i = 'a';
-  string returnResult;
-  string nameData[150];
+    //
+    bool isTextTrue = true;
 
-  int inputText() {
-      int inputIteration;
-      string tempString;
+    string getInput() {
 
+        if(isTextTrue) freopen("input.txt", "r", stdin);
 
-      if(isInputText) freopen("input.txt", "r", stdin);
-      cin >> inputIteration;
+        string str;
 
-      for(int k =0; k < inputIteration; k ++){
-          cin >> tempString;
-          nameData[k] = tempString;
-      }
-
-      return 0;
+        //cin >> str;
+        getline(cin, str);
 
 
-  }
+        return str;
+    }
 
-  int main(){
-      ios_base::sync_with_stdio(false);
-      cin.tie(NULL); cout.tie(NULL);
+    int main(){
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL); cout.tie(NULL);
 
-      int count = 0;
+        string str = getInput();
 
-      inputText();
+        cout << "str is : " << str << "::::\n";
 
-      do{
-          count = 0;
-          for(string name : nameData){
-              if (name == "") continue;
-              if(name[0] == i) {count += 1;}
-          }
-          if(count >= 5) {returnResult += i;}
+        for(int k=0; k<str.size(); k++){
+            if( isalpha(str[k]) ) {
+                if(str[k] >= 65 && str[k] < 97){
+                    if(str[k] + 13 > 90) str[k] = str[k] + 13 - 26;
+                    else str[k] = str[k] + 13;
+                }else if(str[k] >= 97 && str[k] <= 122){
+                    if(str[k] + 13 > 122) str[k] = str[k] + 13 - 26;
+                    else str[k] = str[k] + 13;
+                }
+            }
+        }
 
-          i += 1;
-      } while( i != 'a' );
+        for(char c : str) cout << c;
 
-      if(returnResult == "") {
-          cout << "PREDAJA" << "\n";
-      }
-      else{
-          cout << returnResult << "\n";
-      };
+        return 0;
 
-      return 0;
-  }
 
+    }
 
 
   ```
