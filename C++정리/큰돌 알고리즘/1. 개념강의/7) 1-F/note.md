@@ -1,13 +1,8 @@
 # 1-B
 
-- [문제링크](http://boj.kr/a7e74bfb990641249d917c73a9246796)
+- [문제링크](https://www.acmicpc.net/problem/11655)
 
 ## 알면 좋은점
-> 1) 알파벳 [0] 등올 해서 access 하면 됨
-> 2) 'a'에 숫자연산 하면 char 값
-> 3) 'z'에 +1 하면 다시 'a' 처리
-> 4) string 변수에 .size()로 null 체크 가능
-
 
 <br>
 
