@@ -3,7 +3,9 @@
 - [문제링크](https://www.acmicpc.net/problem/11655)
 
 ## 알면 좋은점
-> 1) 대문자 65 ~ 66,  소문자 97 ~ 122  (diff는 26)
+
+> 1. 대문자 65 ~ 66, 소문자 97 ~ 122 (diff는 26)
+> 2. text 들여오기 : freopen("text.txt", "r", stdin)
 
 <br>
 
