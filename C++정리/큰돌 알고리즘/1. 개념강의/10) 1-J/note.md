@@ -5,6 +5,7 @@
 ## 알면 좋은점
 
 > 1. map : map<string, int> \_map 등으로 선언하여 사용!
+>    또한, 추가적으로 auto로 받아서 first, second로 값을 access할 수 있음
 
 ```c++
   //map 사용방법
