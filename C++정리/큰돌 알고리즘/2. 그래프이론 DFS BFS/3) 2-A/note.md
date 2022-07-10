@@ -6,7 +6,8 @@
 
 > 1. scanf("%1d", &a[i][j]); :: 하나씩 정수 입력받을 때 매우 유용
 > 2. scanf("%d %d", &n, &m); :: 각각 정수 입력받기
->    참조 : [링크](https://yoonwould.tistory.com/18)
+>    참조 : [링크1](https://yoonwould.tistory.com/18)
+>    참조 : [링크2](https://blockdmask.tistory.com/471)
 > 3. pair, tuple 등으로 2, 3자리 값을 묶을 수 있음
 
 <br>
