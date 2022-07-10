@@ -4,7 +4,7 @@
 
 ## 알면 좋은점
 
->
+> 1. 초기화 fill :: fill(&visited[0][0], &visited[99][99], 0);
 
 <br>
 
