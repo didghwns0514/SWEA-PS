@@ -59,7 +59,8 @@
   ```
 
 - 해설2 
-	```c++
+
+  ```c++	
 	#include <iostream>
 	#include <map>
 	#include <vector>
@@ -105,7 +106,9 @@
 		cout << “\n”;
 		return 0;
 	}
-	```å
+
+  ```
+
 
 - 내코드
 
