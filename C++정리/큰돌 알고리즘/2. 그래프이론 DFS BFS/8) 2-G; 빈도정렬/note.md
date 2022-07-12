@@ -58,8 +58,8 @@
 
   ```
 
-- 해설2
-	~~~c++
+- 해설2 
+	```c++
 	#include <iostream>
 	#include <map>
 	#include <vector>
@@ -79,7 +79,7 @@
 		}
 		else return false;
 	}
-	
+
 	int main() {
 		ios::sync_with_stdio(false);
 		cin.tie(NULL);
@@ -105,7 +105,7 @@
 		cout << “\n”;
 		return 0;
 	}
-	~~~ 
+	```å
 
 - 내코드
 
