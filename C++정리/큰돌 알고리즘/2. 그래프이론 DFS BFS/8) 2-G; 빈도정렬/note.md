@@ -5,7 +5,8 @@
 ## 알면 좋은점
 
 > 1. map 사용법 정리 블로그 [링크](https://life-with-coding.tistory.com/305)
-> 2. typedef long long ll
+>    sort의 compare 함수[링크](https://leeeegun.tistory.com/5) ; => array, vector …
+> 2. typedef long long ll;
 > 3. const INF = 1e18;
 > 4. pair :: first, second // tuple :: first, second, third
 
