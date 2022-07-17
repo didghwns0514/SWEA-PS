@@ -1,0 +1,146 @@
+# 2-J
+
+- [문제링크](https://www.acmicpc.net/problem/10709)
+
+## 알면 좋은점
+
+>
+
+<br>
+
+## 코드
+
+- 해설
+
+  ```c++
+  #include <bits/stdc++.h>
+  using namespace std;
+  #define sz(x) ((int)(x).size())
+  #define f first
+  #define s second
+
+  typedef long long ll;
+  int n, m, temp, a[104][104];
+  string s;
+
+  int main () {
+    cin >> n >> m;
+    for(int i = 0; i < n; i++){
+      cin >> s;
+      for(int j = 0; j < m; j++){
+        if(s[j] == '.')a[i][j] = -1;
+        else a[i][j] = 0;
+      }
+    }
+    for(int i = 0; i < n; i++){
+      int j = 0;
+      for(; j < m; j++){
+        if(a[i][j] == 0){
+          int cnt = 1;
+          while(a[i][j + 1] == -1){
+            a[i][j + 1] = cnt++;
+            j++;
+          }
+        }
+      }
+    }
+    for(int i = 0; i < n; i++){
+      for(int j = 0; j < m; j++) cout << a[i][j] << " ";
+      cout << "\n";
+    }
+
+
+    return 0;
+  }
+  ```
+
+- 내코드
+
+  ```c++
+  #include <bits/stdc++.h>
+  #include <iostream>
+
+  using namespace std;
+
+  void getInput();
+  void solution();
+
+  //
+  int _map[100][100], cloud[100][100];
+  bool isInputPresent = true;
+  int H, W;
+
+  void getInput(){
+      if(isInputPresent) freopen("input.txt", "r", stdin);
+
+      char tmpCh;
+
+      cin >> H >> W;
+
+      for(int i1=0; i1 < H; i1++){
+          for(int i2=0; i2 < W; i2++){
+              cin >> tmpCh;
+              if(tmpCh == 'c') _map[i1][i2] = 1;
+          }
+      }
+
+      // for(int i1=0; i1 < H; i1++){
+      //     for(int i2=0; i2 < W; i2++){
+      //         cout << "_map[i1][i2] : " << _map[i1][i2] << "\n";
+      //     }
+      // }
+
+      fill(&cloud[0][0], &cloud[99][99], -1);
+
+      return;
+  }
+
+
+  void solution(){
+
+      // W 만큼의 구름의 이동
+      for(int _iniNum=0; _iniNum < W+1; _iniNum ++){
+
+          // 구름 기록
+          for(int i1=0; i1 < H; i1++){
+              for(int i2=0; i2 < W; i2++){
+
+                  if(_map[i1][i2]==1 && cloud[i1][i2] == -1 ) cloud[i1][i2] = _iniNum;
+
+              }
+
+          }
+
+          //구름 이동
+          for(int i1=0; i1 < H; i1++){
+              for(int i2=W-1; i2 >= 0; i2--){
+                  if(i2 == 0) _map[i1][i2] = 0; // 구름 없어지는 부분
+                  else{
+                      _map[i1][i2] = _map[i1][i2-1];
+                  }
+
+              }
+          }
+      }
+
+      // 구름 출력
+      for(int i1=0; i1 < H; i1++){
+          for(int i2=0; i2 < W; i2++){
+              cout << cloud[i1][i2] << " ";
+          }
+          cout << "\n";
+
+      }
+  }
+
+  int main(){
+
+      ios_base::sync_with_stdio(false);
+      cin.tie(NULL); cout.tie(NULL);
+
+      getInput();
+      solution();
+
+      return 0;
+  }
+  ```
