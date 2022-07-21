@@ -4,7 +4,7 @@
 
 ## 알면 좋은점
 
-> 1) Sizeof 함수로 array 사이즈 구할 수 있음
+> 1. Sizeof 함수로 array 사이즈 구할 수 있음
 
 <br>
 
@@ -76,7 +76,10 @@
         bool isIterationNeeded = true;
         for(int i=1; i < 15001-1; i++){
             for(int j=i+1; j < 15001; j++){
-                if(_data[i] > M/2) {break; isIterationNeeded = false;}
+                if(_data[i] > M/2) {
+                    break;
+                    isIterationNeeded = false;
+                }
                 if(_data[i] + _data[j] == M) {
                     // cout << "_data[i] : " << _data[i] << "\n";
                     // cout << "_data[j] : " << _data[j] << "\n";
