@@ -89,7 +89,7 @@ void solution(){
         }
 
         if(score1 > score2) team1 += 1;
-        else if(score1 < score2) team2 += 2;
+        else if(score1 < score2) team2 += 1;
 
         // next time
         if(curr_sec == 59) { curr_min +=1; curr_sec = 0;}
@@ -100,8 +100,14 @@ void solution(){
     cout << "team1 : " << team1 << endl;
     cout << "team2 : " << team2 << endl;
 
-    cout << team1 / 60 << ":" << team1 % 60 << "\n";
-    cout << team2 / 60 << ":" << team2 % 60 << "\n";
+    string m1 = to_string(team1/60).size() == 1 ? "0" + to_string(team1/60) : to_string(team1/60);
+    string s1 = to_string(team1%60).size() == 1 ? "0" + to_string(team1%60) : to_string(team1%60);
+
+    string m2 = to_string(team2/60).size() == 1 ? "0" + to_string(team2/60) : to_string(team2/60);
+    string s2 = to_string(team2%60).size() == 1 ? "0" + to_string(team2%60) : to_string(team2%60);
+
+    cout << m1 << ":" << s1 << "\n";
+    cout << m2 << ":" << s2 << "\n";
 
 }
 
