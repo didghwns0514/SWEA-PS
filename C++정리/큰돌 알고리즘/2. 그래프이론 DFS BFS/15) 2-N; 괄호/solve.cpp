@@ -24,24 +24,24 @@ void solution(){
 
     string tmpString = "";
     for(int i=0; i < N; i++){
-        cout << "----------" << endl;
+        // cout << "----------" << endl;
         cin >> tmpString;
-        cout << "tmpString :: " << tmpString << endl;
+        // cout << "tmpString :: " << tmpString << endl;
         int sizeLimit = tmpString.size() / 2;
         
         for(int k=0; k < sizeLimit; k++){
             
             if(tmpString.find("()") != string::npos){
                 int _index = tmpString.find("()");
-                cout << "-  _index :: " << _index << endl;
-                cout << "-  _index+2 :: " << _index+1 << endl;
+                // cout << "-  _index :: " << _index << endl;
+                // cout << "-  _index+2 :: " << _index+1 << endl;
                 if(_index != 0){
-                    tmpString.replace(_index, _index + 1, "");
-                    cout << "-  tmpString :: " << tmpString << endl;
+                    tmpString.erase(_index, 2);
+                    // cout << "-  tmpString :: " << tmpString << endl;
                 }
                 else{
                     tmpString.replace(_index, _index + 2, "");
-                    cout << "-  tmpString :: " << tmpString << endl;
+                    // cout << "-  tmpString :: " << tmpString << endl;
                 }
 
             }
