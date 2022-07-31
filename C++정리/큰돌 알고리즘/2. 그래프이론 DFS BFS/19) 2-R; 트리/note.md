@@ -6,6 +6,8 @@
 
 > 1. vector를 dfs용 map 기록으로 쓰는건 좋은 생각! -> adj array 안에 가변 vector
 > 2. 제거 값이 root인 경우가 반례, 이런 반례를 잘 생각하고 추가를 해주어야 test케이스 통과
+> 3. 2d map 생성시 다음과 같이 구현
+>    <img src='images/2022-07-31-16-59-56.png' />
 
 <br>
 
@@ -32,7 +34,9 @@
     }
 
     int main(){
-        ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL); cout.tie(NULL);
+
         cin >> n;
         for(int i = 0; i < n; i++){
             cin >> temp;
