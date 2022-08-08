@@ -6,6 +6,7 @@
 
 > 1. index pair 하면 stack 생각해보자 -> 나는 메모이제이션 써야할거같고, iter나올 때 stack 필이 옴
 > 2. 괄호 문제 등등...
+> 3. https://cocoon1787.tistory.com/347 참조!
 
 <br>
 
