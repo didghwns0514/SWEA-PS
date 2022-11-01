@@ -2,6 +2,10 @@
 
 1. [해설]()
 
+# 문제 링크
+
+[링크](https://school.programmers.co.kr/learn/courses/30/lessons/133024)
+
 ## 배울점
 
 > 1. 여러개의 정렬 사용; 다중정렬 [링크](https://dar0m.tistory.com/60)
