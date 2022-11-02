@@ -14,14 +14,22 @@
 > 2. case 절 : select 절에서 ( )로 감싼 후 사용
 >    CASE, WHEN, ELSE, END로 syntax 유지해야 함
 
-> 3. TRUNCATE( ) 함수 : 
-> "TRUNCATE(숫자, 버림 할 자리수)"의 형태로 사용
+> 3. TRUNCATE( ) 함수 :
+>    "TRUNCATE(숫자, 버림 할 자리수)"의 형태로 사용
+>    [참조 링크](https://soft.plusblog.co.kr/6)
 
 ## 내코드
 
 ```sql
 -- 코드를 입력하세요
+show table status;
+select * from product;
 
+select truncate(price, -4) as price_group, 
+       count(product_id) from product
+       
+       group by price_group
+       order by price_group asc;
 ```
 
 ## 정답코드
