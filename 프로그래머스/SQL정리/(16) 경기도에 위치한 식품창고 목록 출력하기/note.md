@@ -4,7 +4,7 @@
 
 # 문제 링크
 
-[링크](https://school.programmers.co.kr/learn/courses/30/lessons/131115)
+[링크](https://school.programmers.co.kr/learn/courses/30/lessons/131114)
 
 ## 배울점
 
@@ -15,12 +15,19 @@
 ```sql
 -- 코드를 입력하세요
 show table status;
-select * from food_product;
+select * from food_warehouse;
 
+select warehouse_id, warehouse_name, address,
+(
+    case
+    when freezer_yn is null then 'N'
+    else freezer_yn
+    end
+) as freezer_yn
+from food_warehouse
+    where right(left(warehouse_name, 5),2) = '경기'
 
-select product_id, product_name, product_cd, category, price from food_product
-    group by product_id
-    having price = max(price);
+    order by warehouse_id asc;
 ```
 
 ## 정답코드
@@ -29,9 +36,38 @@ select product_id, product_name, product_cd, category, price from food_product
 
 ```sql
 -- 코드를 입력하세요
-select *
-from food_product
-where price = (SELECT max(price) as price from food_product);
+-- IFNULL 함수 사용
+SELECT
+    WAREHOUSE_ID,
+    WAREHOUSE_NAME,
+    ADDRESS,
+    IFNULL(FREEZER_YN, "N") AS FREEZER_YN
+FROM FOOD_WAREHOUSE
+WHERE ADDRESS LIKE "경기도%"
+ORDER BY WAREHOUSE_ID ASC;
+
+-- IF 함수 사용
+SELECT
+    WAREHOUSE_ID,
+    WAREHOUSE_NAME,
+    ADDRESS,
+    IF(FREEZER_YN IS NULL, "N", FREEZER_YN) AS FREEZER_YN
+FROM FOOD_WAREHOUSE
+WHERE ADDRESS LIKE "경기도%"
+ORDER BY WAREHOUSE_ID ASC;
+
+-- CASE 사용
+SELECT
+    WAREHOUSE_ID,
+    WAREHOUSE_NAME,
+    ADDRESS,
+    CASE
+        WHEN FREEZER_YN IS NULL THEN "N"
+        ELSE FREEZER_YN
+    END AS FREEZER_YN
+FROM FOOD_WAREHOUSE
+WHERE ADDRESS LIKE "경기도%"
+ORDER BY WAREHOUSE_ID ASC;
 
 ```
 
